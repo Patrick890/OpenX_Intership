@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "name": "Patrick Graham",
+    "username": "Bret",
+    "address": {
+      "geo": {
+        "lat": "-30",
+        "lng": "80"
+      }
+     }
+   },
+  {
+    "id": 2,
+    "name": "Ervin Howell",
+    "username": "User 2",
+    "address": {
+      "geo": {
+        "lat": "-40",
+        "lng": "-30"
+      }
+     }
+   },
+  {
+    "id": 3,
+    "name": "Anna Graham",
+    "username": "User 3",
+    "address": {
+      "geo": {
+        "lat": "-60",
+        "lng": "-50"
+      }
+    }
+  }
+]
