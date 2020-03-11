@@ -1,5 +1,6 @@
-import unittest, json
 from OpenX_Intership import *
+import unittest
+
 
 posts = json.load(open("posts_test.txt"))
 users = json.load(open("users_test.txt"))
@@ -7,8 +8,18 @@ users = json.load(open("users_test.txt"))
 
 class ProgramTest(unittest.TestCase):
 
-    
+    def test_check_url_exists(self):
+            url = 'http://google.com/'
+            self.assertTrue(check_url_exists(url))
 
+    def test_check_url_not_exists(self):
+            url = 'http://google.com/nieistniejacyurl'
+            self.assertFalse(check_url_exists(url))   
+            
+    def test_url_is_not_empty(self):
+            url = 'http://google.com/'
+            self.assertTrue(url_not_empty(url))
+                        
     def test_data(self):
         self.assertEqual(data(users,posts)[2],{'userId': 3, 'id': 3, 'title': 'tytul 3', 'name': 'Anna Graham', 'username': 'User 3', 'address': {'geo': {'lat': '-60', 'lng': '-50'}}})
 
@@ -28,4 +39,3 @@ class ProgramTest(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
         
-

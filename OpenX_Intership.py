@@ -1,14 +1,26 @@
-import urllib.request, json
+import urllib.request, json, requests
 from math import sqrt
 import numpy as np
 
-url1 = "https://jsonplaceholder.typicode.com/users"
-userslist = json.loads(urllib.request.urlopen(url1).read())
 
-url2 = "https://jsonplaceholder.typicode.com/posts"
-postslist = json.loads(urllib.request.urlopen(url2).read())
+def check_url_exists(url):
+    r = requests.get(url)
+    if r.status_code == 200:
+        return True
+    elif r.status_code == 404:
+        return False
+
+def url_not_empty(url):
+    r = requests.get(url)
+    if r.content:
+        return True
+    else:
+        return False
 
 
+def read_data(url):
+    read_data = urllib.request.urlopen(url).read()
+    return json.loads(read_data)
 
 #1
 def data(users,posts):
@@ -24,6 +36,8 @@ def data(users,posts):
                     data[i]["id"]=posts[i]["id"]
 
     return data
+
+
 #2
 def number_of_posts(users,posts):
     postsnumber=[]
@@ -33,7 +47,9 @@ def number_of_posts(users,posts):
             if users[i]["id"]==posts[j]["userId"]:
                 x+=1
         postsnumber.append(str(users[i]["username"])+' napisal(a) '+str(x)+ ' postow')
+        
     return postsnumber
+
 
 #3
 def unique_posts(posts):
@@ -53,9 +69,8 @@ def unique_posts(posts):
             ununique_post.append(x)
         
     return [list(set(ununique_post)), number_of_unique_posts]
+
    
-
-
 #4
 def users_distance(users):
     users_dist=[]
@@ -77,20 +92,29 @@ def users_distance(users):
     return users_dist
 
 
-print(data(userslist,postslist)[34])
+##################################################################
+
+
+users_url = "https://jsonplaceholder.typicode.com/users"
+posts_url = "https://jsonplaceholder.typicode.com/posts"
+
+
+if check_url_exists(users_url)==True and url_not_empty(users_url)==True:
+    userslist=read_data(users_url)
+else:
+    print("Bledne dane")
+
+if check_url_exists(users_url)==True and url_not_empty(posts_url)==True:
+    postslist=read_data(posts_url)
+else:
+    print("Bledne dane")
+        
+print("\n",data(userslist,postslist)[34])
 print("\n\nIle postow napisali uzytkownicy:")
 for x in number_of_posts(userslist,postslist):
     print(x)
 print("\n\nLiczba unikalnych tytulow: ",unique_posts(postslist)[1])
 print("\nLista tytulow ktore nie sa unikalne: \n",unique_posts(postslist)[0])
-print("\n\n Uzytkownicy mieszkajacy najblizej siebie:")
+print("\n\nUzytkownicy mieszkajacy najblizej siebie:")
 for x in users_distance(userslist):
     print(x)
-
-print("\n\n\n\n")
-
-posts = json.load(open("posts_test.txt"))
-users = json.load(open("users_test.txt"))
-for x in users_distance(users):
-    print(x)
-
